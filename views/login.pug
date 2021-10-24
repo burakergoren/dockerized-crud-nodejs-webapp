@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+  head 
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    title Node.js with TailwindCSS, Express and Pug
+    link(rel="stylesheet" href="/css/style.css")   
+    script(src='/js/main.js')  
+
+  body
+    .container
+      // Data or Content
+      .box-1
+        .content-holder
+          h2 Hello!
+          p This is a sample CRUD Rest API project using Node.js, Express, Pug .  
+          button.button-1(onclick='signup()') Sign up
+          button.button-2(onclick='login()') Login
+      // Forms
+      .box-2
+        .login-form-container
+          h1 Login Form
+          input.input-field(type='text' placeholder='Username')
+          br
+          br
+          input.input-field(type='password' placeholder='Password')
+          br
+          br
+          button.login-button(type='button') Login
+        // Create Container for Signup form
+        .signup-form-container
+          form(action="http://localhost:3000/register", method="post")
+            h1 Sign Up Form
+            input.input-field(type='text' placeholder='username' name="username")
+            br
+            br
+            input.input-field(type='text' placeholder='email' name="email")
+            br
+            br
+            input.input-field(type='text' placeholder='password' name="password")
+            br
+            br
+            button.signup-button(type='submit') Sign Up
+
+
+
+
+
+
+  
