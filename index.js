@@ -7,9 +7,8 @@ const homeRouter = require('./routes/mainpage');
 var bodyParser = require('body-parser');
 const { status } = require("express/lib/response");
 
-
 app.listen(port, () => {
-  console.log("Server Started...");
+  console.log("Server Started On.. http://localhost:" + port);
 });
 
 app.use('/', homeRouter);
@@ -26,27 +25,30 @@ app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect(
-    "mongodb://localhost:27017/",
-    { useUnifiedTopology: true }
-);
 
+// uri from mongo atlas cloud db
+var  uri = "mongodb+srv://buraker:nodejsdemo@cluster0.5otud.mongodb.net/mongoDbTest?retryWrites=true&w=majority"
+
+// Declare a variable named option and assign optional settings
+const  options = {
+    useNewUrlParser:  true,
+    useUnifiedTopology:  true
+};  
+
+// Connect MongoDB Atlas using mongoose connect method
+mongoose.connect(uri, options).then(() => {
+    console.log("Database connection established!");
+},
+err  => {
+{
+    console.log("Error connecting Database instance due to:", err);
+}
+});
+
+require('./routes/user.routes.js')(app);
 
 const User = require('./models/user.js');
 
-// // Create schema
-// const feedSchecma = mongoose.Schema({
-//     username: String,
-//     email: String,
-//     password: String
-// });
-  
-// // Making a modal on our already
-// // defined schema
-// const feedModal = mongoose
-//     .model('feeds', feedSchecma);
-  
-// // Handling get request
 app.get('/', function (req, res) {
     // Rendering your form
     res.render('login');
@@ -63,22 +65,9 @@ app.post("/register", function (req, res) {
     console.log(userData.email);
     userData.save()
         .then(data => {
-            res.render('login',
-{ msg: "Your feedback successfully saved." });
+            res.render('login', { msg: "Your data successfully saved." });
         })
         .catch(err => {
-            res.render('login', 
-                { msg: "Check Details." });
+            res.render('login', { msg: "Check Details." });
         });
 })
-
-
-
-
-
-
-// app.post("/register", function (req, res) {
-//     console.log("hellllooo")
-//     console.log(req.body.username);
-//     res.render('login');
-// })

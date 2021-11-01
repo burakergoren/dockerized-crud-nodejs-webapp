@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 // create student schema & model
-const UserSchema = new Schema({
+const UserSchema = mongoose.Schema({
+    // id: {
+    //     type: String,
+    // },
     username: {
         type: String,
     },
@@ -15,6 +17,4 @@ const UserSchema = new Schema({
 });
 
 
-const User = mongoose.model('user',UserSchema);
-
-module.exports = User;
+module.exports = mongoose.model('users', UserSchema);
