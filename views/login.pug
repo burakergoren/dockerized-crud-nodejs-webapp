@@ -20,14 +20,15 @@ html(lang="en")
       // Forms
       .box-2
         .login-form-container
-          h1 Login Form
-          input.input-field(type='text' placeholder='Username')
-          br
-          br
-          input.input-field(type='password' placeholder='Password')
-          br
-          br
-          button.login-button(type='button') Login
+          form(action="http://localhost:3000/login", method="post")
+            h1 Login Form
+            input.input-field(type='text' placeholder='Username' name="username")
+            br
+            br
+            input.input-field(type='text' placeholder='Password' name="password")
+            br
+            br
+            button.login-button(type='submit') Login
         // Create Container for Signup form
         .signup-form-container
           form(action="http://localhost:3000/register", method="post")

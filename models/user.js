@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // create student schema & model
 const UserSchema = mongoose.Schema({
@@ -13,8 +14,9 @@ const UserSchema = mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true
     }
 });
 
-
+UserSchema.plugin(uniqueValidator, { message: 'Email already in use.' });
 module.exports = mongoose.model('users', UserSchema);
