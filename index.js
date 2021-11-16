@@ -3,11 +3,12 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const loginRouter = require('./routes/login');
-const homeRouter = require('./routes/mainpage');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 const session = require("express-session");
 const User = require('./models/user.js');
+var bcrypt = require('bcryptjs');
+
 require('./config/db.config');
 require('./config/auth.config');
 require('./routes/user.routes.js')(app);
@@ -16,43 +17,16 @@ app.listen(port, () => {
   console.log("Server Started On.. http://localhost:" + port);
 });
 
-// app.get('/', function (req, res) {
-//   res.render('login');
-// });
-
-app.use('/', homeRouter);
-app.use('/login', loginRouter);
+app.use('/', loginRouter);
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set("view engine", 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({secret: "secret"}));
-
-
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Session-persisted message middleware
-app.use(function(req, res, next){
-  var err = req.session.error,
-      msg = req.session.notice,
-      success = req.session.success;
-
-  delete req.session.error;
-  delete req.session.success;
-  delete req.session.notice;
-
-  if (err) res.locals.error = err;
-  if (msg) res.locals.notice = msg;
-  if (success) res.locals.success = success;
-
-  next();
-});
-
-
-// Passport session setup.
 passport.serializeUser(function(user, done) {
     console.log("serializing " + user.username);
     done(null, user);
@@ -87,8 +61,6 @@ passport.use('local-signin', new LocalStrategy(
     }
   )); 
 
-
-var bcrypt = require('bcryptjs');
       
 app.post("/register", 
   function(req, res){
@@ -115,9 +87,15 @@ app.post("/register",
     });
 });
 
+app.post('/login', function(req, res, next) {
 
-app.post('/login', passport.authenticate('local-signin', { 
-    successRedirect: '/',
-    failureRedirect: '/login'
-    })
-);
+  passport.authenticate('local-signin', function(err, user) {
+    if (err) { return next(err); }
+    if (!user) { return res.render('login', {message: "Wrong data! Please check again.."}); }
+
+    res.render('welcome', { title: 'welcome', message: req.body.username});
+
+  })(req, res, next);
+
+});
+

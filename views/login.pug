@@ -9,6 +9,14 @@ html(lang="en")
     script(src='/js/main.js')  
 
   body
+    style.
+      body {
+      background-image: url('https://img5.goodfon.com/wallpaper/nbig/4/36/mmmmm-nnnnnn-bbbbbb-vvvvv-cccccccc-1.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      }
+
     .container
       // Data or Content
       .box-1
@@ -29,6 +37,9 @@ html(lang="en")
             br
             br
             button.login-button(type='submit') Login
+            br
+            br
+            p #{message} 
         // Create Container for Signup form
         .signup-form-container
           form(action="http://localhost:3000/register", method="post")

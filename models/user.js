@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-// create student schema & model
 const UserSchema = mongoose.Schema({
-    // id: {
-    //     type: String,
-    // },
     username: {
         type: String,
     },
