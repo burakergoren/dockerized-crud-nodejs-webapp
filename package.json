@@ -4,7 +4,7 @@
   "description": "This is a sample Rest CRUD API project using Node.js, Express, Pug,  MongoDb for database and Mocha & Chai for testing",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --timeout 20000",
     "start": "nodemon index.js"
   },
   "author": "burakergoren",

@@ -1,6 +1,8 @@
 module.exports = (app) => {
     const User = require("../controllers/user.controller.js");
-
+    const bodyParser = require('body-parser');
+    app.use(bodyParser.urlencoded({extended: false}));
+    
     app.get("/getUserByName/:username", User.findUserByName);
     app.get("/getUserById/:id", User.findUserById); 
     app.get("/getUsers", User.findUsers);
