@@ -1,9 +1,9 @@
 var chai = require('chai');
+var should = chai.should();
 var chaiHttp = require('chai-http');
 var server = require('../index')
 var User = require("../models/user");
 var sleep = require('sleep');
-var should = chai.should();
 chai.use(chaiHttp);
 var mockUser;
 
@@ -148,6 +148,24 @@ describe('User crud unit tests', () => {
                     res.body.username.should.equal('user');
                     res.body.password.should.equal(mockUser.password);
                     res.body.email.should.equal(mockUser.email);
+                    done();
+                });
+        });
+    });
+
+    describe('/register', () => {
+        it('should edit user', (done) => {
+            chai.request(server)
+                .post('/register')
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .send(
+                    {
+                        'username': 'user',
+                        'password': 'pass',
+                        'email': 'mail'
+                    })
+                .end((err, res) => {
+                    res.should.have.status(200);
                     done();
                 });
         });

@@ -70,7 +70,6 @@ app.post("/register",
                 email: req.body.email,
                 password: hash
             });
-            console.log(userData.email);
     
             userData.save()
                 .then(data => {
