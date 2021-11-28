@@ -8,10 +8,42 @@ var LocalStrategy = require('passport-local');
 const session = require("express-session");
 const User = require('./models/user.js');
 var bcrypt = require('bcryptjs');
+var swaggerJsdoc = require("swagger-jsdoc");
+var swaggerUi = require("swagger-ui-express");
 
 require('./config/db.config');
 require('./config/auth.config');
 require('./routes/user.routes.js')(app);
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Nodejs Rest CRUD API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a sample Rest CRUD API project using Node.js, Express, Pug, MongoDb, Swagger, Mocha & Chai for testing",
+      license: "",
+      contact: {
+           name: "Burak Ergoren",
+           url: "https://www.linkedin.com/in/burakergoren/"
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/user.routes.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
 
 app.listen(port, () => {
   console.log("Server Started On.. http://localhost:" + port);
@@ -23,27 +55,27 @@ app.set("view engine", 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({secret: "secret"}));
+app.use(session({ secret: "secret" }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-    console.log("serializing " + user.username);
-    done(null, user);
-  });
-  
-passport.deserializeUser(function(obj, done) {
-    console.log("deserializing " + obj);
-    done(null, obj);
-  });
+passport.serializeUser(function (user, done) {
+  console.log("serializing " + user.username);
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  console.log("deserializing " + obj);
+  done(null, obj);
+});
 
 
- //Use the LocalStrategy within Passport to login users.
+//Use the LocalStrategy within Passport to login users.
 passport.use('local-signin', new LocalStrategy(
-    {passReqToCallback : true}, //allows us to pass back the request to the callback
-    function(req, username, password, done) {
-      localAuth(username, password)
-       .then(function (user) {
+  { passReqToCallback: true }, //allows us to pass back the request to the callback
+  function (req, username, password, done) {
+    localAuth(username, password)
+      .then(function (user) {
         if (user) {
           console.log("LOGGED IN AS: " + user.username);
           req.session.success = 'You are successfully logged in ' + user.username + '!';
@@ -55,44 +87,44 @@ passport.use('local-signin', new LocalStrategy(
           done(null, user);
         }
       })
-      .fail(function (err){
+      .fail(function (err) {
         console.log(err.body);
       });
-    }
-  )); 
+  }
+));
 
-      
-app.post("/register", 
-  function(req, res){
-        bcrypt.hash(req.body.password, 10).then((hash) => {
-            const userData = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hash
-            });
-    
-            userData.save()
-                .then(data => {
-                    res.render('login', { msg: "Your data successfully saved." });
-                })
-                .catch(err => {
-                    res.render('login', { msg: "Check Details." });
-                });
+
+app.post("/register",
+  function (req, res) {
+    bcrypt.hash(req.body.password, 10).then((hash) => {
+      const userData = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: hash
+      });
+
+      userData.save()
+        .then(data => {
+          res.render('login', { msg: "Your data successfully saved." });
         })
-        .catch(error => {
-            res.status(500).json({
-            error: error
+        .catch(err => {
+          res.render('login', { msg: "Check Details." });
         });
-    });
-});
+    })
+      .catch(error => {
+        res.status(500).json({
+          error: error
+        });
+      });
+  });
 
-app.post('/login', function(req, res, next) {
+app.post('/login', function (req, res, next) {
 
-  passport.authenticate('local-signin', function(err, user) {
+  passport.authenticate('local-signin', function (err, user) {
     if (err) { return next(err); }
-    if (!user) { return res.render('login', {message: "Wrong data! Please check again.."}); }
+    if (!user) { return res.render('login', { message: "Wrong data! Please check again.." }); }
 
-    res.render('welcome', { title: 'welcome', message: req.body.username});
+    res.render('welcome', { title: 'welcome', message: req.body.username });
 
   })(req, res, next);
 
