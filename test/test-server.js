@@ -154,7 +154,7 @@ describe('User crud unit tests', () => {
     });
 
     describe('/register', () => {
-        it('should edit user', (done) => {
+        it('should register user', (done) => {
             chai.request(server)
                 .post('/register')
                 .set('content-type', 'application/x-www-form-urlencoded')

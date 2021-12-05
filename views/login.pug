@@ -4,17 +4,17 @@ html(lang="en")
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
-    title Node.js with TailwindCSS, Express and Pug
+    title Dockerized CRUD Node.js Web App
     link(rel="stylesheet" href="/css/style.css")   
     script(src='/js/main.js')  
 
   body
     style.
       body {
-      background-image: url('https://img5.goodfon.com/wallpaper/nbig/4/36/mmmmm-nnnnnn-bbbbbb-vvvvv-cccccccc-1.jpg');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
+        background-image: url('/images/login.jpeg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
       }
 
     .container
@@ -22,7 +22,7 @@ html(lang="en")
       .box-1
         .content-holder
           h2 Hello!
-          p This is a sample CRUD Rest API project using Node.js, Express, Pug .  
+          p This is a sample Dockerized CRUD Rest API Node.js Web app  
           button.button-1(onclick='signup()') Sign up
           button.button-2(onclick='login()') Login
       // Forms
