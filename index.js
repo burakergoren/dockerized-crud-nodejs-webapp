@@ -25,8 +25,8 @@ const options = {
         "This is a sample Rest CRUD API project using Node.js, Express, Pug, MongoDb, Swagger, Mocha & Chai for testing",
       license: "",
       contact: {
-           name: "Burak Ergoren",
-           url: "https://www.linkedin.com/in/burakergoren/"
+        name: "Burak Ergoren",
+        url: "https://www.linkedin.com/in/burakergoren/"
       },
     },
     servers: [
