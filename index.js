@@ -8,41 +8,17 @@ var LocalStrategy = require('passport-local');
 const session = require("express-session");
 const User = require('./models/user.js');
 var bcrypt = require('bcryptjs');
-var swaggerJsdoc = require("swagger-jsdoc");
-var swaggerUi = require("swagger-ui-express");
+const {swaggerUi, swaggerSpecs} = require('./config/swagger.config');
 
 require('./config/db.config');
 require('./config/auth.config');
 require('./routes/user.routes.js')(app);
 
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Nodejs Rest CRUD API with Swagger",
-      version: "0.1.0",
-      description:
-        "This is a sample Rest CRUD API project using Node.js, Express, Pug, MongoDb, Swagger, Mocha & Chai for testing",
-      license: "",
-      contact: {
-        name: "Burak Ergoren",
-        url: "https://www.linkedin.com/in/burakergoren/"
-      },
-    },
-    servers: [
-      {
-        url: "http://localhost:3000",
-      },
-    ],
-  },
-  apis: ["./routes/user.routes.js"],
-};
-
-const specs = swaggerJsdoc(options);
+//swagger setup
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(specs, { explorer: true })
+  swaggerUi.setup(swaggerSpecs, { explorer: true })
 );
 
 app.listen(port, () => {
