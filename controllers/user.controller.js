@@ -63,7 +63,7 @@ exports.createNewUser = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Message.",
+          err.message || "Some error occurred while creating the User.",
       });
     });
 };
@@ -88,7 +88,7 @@ exports.updateByName = (req, res) => {
   )
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found User with name: " + name });
+        res.status(404).send({ message: "User not found with name: " + name });
       else res.send(data);
     })
     .catch(err => {
@@ -117,7 +117,7 @@ exports.updateById = (req, res) => {
   )
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found User with id: " + id });
+        res.status(404).send({ message: "User not found with id: " + id });
       else res.send(data);
     })
     .catch(err => {
@@ -134,7 +134,7 @@ exports.deleteUserById = (req, res) => {
   User.findByIdAndRemove(req.params.id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found User with id: " + id });
+        res.status(404).send({ message: "User not found with id: " + id });
       else res.send("user deleted with id :" + id);
     })
     .catch(err => {
