@@ -8,13 +8,14 @@ var LocalStrategy = require('passport-local');
 const session = require("express-session");
 const User = require('./models/user.js');
 var bcrypt = require('bcryptjs');
-const {swaggerUi, swaggerSpecs} = require('./config/swagger.config');
 
 require('./config/db.config');
 require('./config/auth.config');
 require('./routes/user.routes.js')(app);
 
 //swagger setup
+const {swaggerUi, swaggerSpecs} = require('./config/swagger.config');
+
 app.use(
   "/api-docs",
   swaggerUi.serve,
@@ -31,7 +32,7 @@ app.set("view engine", 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({ secret: "secret" }));
+app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
